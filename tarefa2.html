@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário com Validação em JavaScript</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.formulario{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+    form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        border: 3px solid black;
+        border-radius: 10px;
+        width: 40%;
+        margin: 1rem;
+    }
+
+    input{
+        margin: 1rem;
+        padding: 5px;
+        width: 60%;
+        border-radius: 7px;
+    }
+
+    .termos{
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+    .termos > input{
+        width: 10%;
+
+    }
+
+    .termos > label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 300px;
+}
+
+
+    button{
+        margin-top: 10px;
+        padding: 5px;
+        background-color: transparent;
+        color: black;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all .3s ease-in-out;
+    }
+
+    button:hover{
+        transform: scale(1.25);
+    }
+
+    #dados {
+    max-width: 400px;
+
+    margin: 0 auto;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+
+}
+
+    #dados th,
+    #dados td {
+    text-align: center;
+}
+
+#dados th {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+#dados td {
+    background-color: #f8f9fa;
+}
+
+.table-class{
+    text-align: center;
+    width: 80vw;
+    margin: 0 170px;
+}
+
+
+</style>
+<body>
+<div class="formulario">
+    <form action="#" onsubmit="funcao(event)">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome">
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email">
+
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade">
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha">
+
+        <label for="confirmaSenha">Confirme a Senha:</label>
+        <input type="password" id="confirmaSenha">
+    <div class="termos">
+        <label for="aceitoTermos">Aceito os termos e condições:</label>
+        <input type="checkbox" id="aceitoTermos">
+      
+    </div>
+        <button type="submit">Enviar</button>
+    </form>
+</div>
+
+<table class="table table-bordered mt-4 table-class">
+    <thead class="thead-dark">
+        <tr>
+            <th>Campo</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+    <tbody id="dados">
+        <!-- Dados serão inseridos aqui -->
+    </tbody>
+</table>
+   
+    <script>
+        function funcao(event) {
+            event.preventDefault();
+            let nome = document.getElementById('nome').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let idade = document.getElementById('idade').value;
+            let senha = document.getElementById('senha').value.trim();
+            let confirmaSenha = document.getElementById('confirmaSenha').value.trim();
+            let aceitoTermos = document.getElementById('aceitoTermos').checked;
+
+            if (nome === "" || email === "" || idade === "" || senha === "" || confirmaSenha === "" || !aceitoTermos) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            if (senha !== confirmaSenha) {
+                alert("As senhas não coincidem.");
+                return;
+            }
+
+            if (idade < 18) {
+                alert("Você deve ter pelo menos 18 anos.");
+                return;
+            }
+
+
+            let dadosTabela = document.getElementById('dados');
+    dadosTabela.innerHTML = `
+        <tr>
+            <td>Nome:</td>
+            <td>${nome}</td>
+        </tr>
+        <tr>
+            <td>E-mail:</td>
+            <td>${email}</td>
+        </tr>
+        <tr>
+            <td>Idade:</td>
+            <td>${idade}</td>
+        </tr>
+        <tr>
+            <td>Senha:</td>
+            <td>${senha}</td>
+        </tr>
+        <tr>
+            <td>Confirmação de Senha:</td>
+            <td>${confirmaSenha}</td>
+        </tr>
+        <tr>
+            <td>Aceito os termos:</td>
+            <td>${aceitoTermos ? 'Sim' : 'Não'}</td>
+        </tr>
+    `;
+}
+    </script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

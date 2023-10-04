@@ -78,37 +78,16 @@
         transform: scale(1.25);
     }
 
-    #dados {
-    max-width: 400px;
 
-    margin: 0 auto;
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
+.container-table{
+    display: flex;
+    justify-content: center;
 
 }
-
-    #dados th,
-    #dados td {
-    text-align: center;
+.table-container{
+width: 80%;
+    
 }
-
-#dados th {
-    background-color: #343a40;
-    color: #ffffff;
-}
-
-#dados td {
-    background-color: #f8f9fa;
-}
-
-.table-class{
-    text-align: center;
-    width: 80vw;
-    margin: 0 170px;
-}
-
 
 </style>
 <body>
@@ -137,19 +116,14 @@
     </form>
 </div>
 
-<table class="table table-bordered mt-4 table-class">
-    <thead class="thead-dark">
-        <tr>
-            <th>Campo</th>
-            <th>Valor</th>
-        </tr>
-    </thead>
-    <tbody id="dados">
-        <!-- Dados serão inseridos aqui -->
-    </tbody>
-</table>
-   
-    <script>
+
+<div class="container-table">
+    <div class="table-container" id="tableContainer">
+      
+    </div>
+</div>
+
+<script>
         function funcao(event) {
             event.preventDefault();
             let nome = document.getElementById('nome').value.trim();
@@ -175,8 +149,15 @@
             }
 
 
-            let dadosTabela = document.getElementById('dados');
-    dadosTabela.innerHTML = `
+let dadosTabela = `
+<table class="table table-bordered mt-4 table-class">
+    <thead class="thead-dark">
+        <tr>
+            <th>Campo</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+    <tbody>
         <tr>
             <td>Nome:</td>
             <td>${nome}</td>
@@ -201,8 +182,19 @@
             <td>Aceito os termos:</td>
             <td>${aceitoTermos ? 'Sim' : 'Não'}</td>
         </tr>
-    `;
+    </tbody>
+</table>
+`;
+
+let tableContainer = document.getElementById('tableContainer');
+tableContainer.innerHTML += dadosTabela;
+
+event.preventDefault();
 }
+
+
+
+
     </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -210,3 +202,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
+
+
+

@@ -124,73 +124,103 @@ width: 80%;
 </div>
 
 <script>
-        function funcao(event) {
-            event.preventDefault();
-            let nome = document.getElementById('nome').value.trim();
-            let email = document.getElementById('email').value.trim();
-            let idade = document.getElementById('idade').value;
-            let senha = document.getElementById('senha').value.trim();
-            let confirmaSenha = document.getElementById('confirmaSenha').value.trim();
-            let aceitoTermos = document.getElementById('aceitoTermos').checked;
+function funcao(event) {
+    event.preventDefault();
+    let nome = document.getElementById('nome').value.trim();
+    let email = document.getElementById('email').value.trim();
+    let idade = document.getElementById('idade').value;
+    let senha = document.getElementById('senha').value.trim();
+    let confirmaSenha = document.getElementById('confirmaSenha').value.trim();
+    let aceitoTermos = document.getElementById('aceitoTermos').checked;
 
-            if (nome === "" || email === "" || idade === "" || senha === "" || confirmaSenha === "" || !aceitoTermos) {
-                alert("Por favor, preencha todos os campos.");
-                return;
-            }
+    if (nome === "" || email === "" || idade === "" || senha === "" || confirmaSenha === "" || !aceitoTermos) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
 
-            if (senha !== confirmaSenha) {
-                alert("As senhas não coincidem.");
-                return;
-            }
+    if (senha !== confirmaSenha) {
+        alert("As senhas não coincidem.");
+        return;
+    }
 
-            if (idade < 18) {
-                alert("Você deve ter pelo menos 18 anos.");
-                return;
-            }
+    if (idade < 18) {
+        alert("Você deve ter pelo menos 18 anos.");
+        return;
+    }
 
+    let dados = {
+        nome: nome,
+        email: email,
+        idade: idade,
+        senha: senha,
+        confirmaSenha: confirmaSenha,
+        aceitoTermos: aceitoTermos ? 'Sim' : 'Não'
+    };
 
-let dadosTabela = `
-<table class="table table-bordered mt-4 table-class">
-    <thead class="thead-dark">
-        <tr>
-            <th>Campo</th>
-            <th>Valor</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Nome:</td>
-            <td>${nome}</td>
-        </tr>
-        <tr>
-            <td>E-mail:</td>
-            <td>${email}</td>
-        </tr>
-        <tr>
-            <td>Idade:</td>
-            <td>${idade}</td>
-        </tr>
-        <tr>
-            <td>Senha:</td>
-            <td>${senha}</td>
-        </tr>
-        <tr>
-            <td>Confirmação de Senha:</td>
-            <td>${confirmaSenha}</td>
-        </tr>
-        <tr>
-            <td>Aceito os termos:</td>
-            <td>${aceitoTermos ? 'Sim' : 'Não'}</td>
-        </tr>
-    </tbody>
-</table>
-`;
+    let dadosString = JSON.stringify(dados);
 
-let tableContainer = document.getElementById('tableContainer');
-tableContainer.innerHTML += dadosTabela;
+    localStorage.setItem('dadosFormulario', dadosString);
 
-event.preventDefault();
+    document.getElementById('nome').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('idade').value = '';
+    document.getElementById('senha').value = '';
+    document.getElementById('confirmaSenha').value = '';
+    document.getElementById('aceitoTermos').checked = false;
+
+    atualizarTabela();
+
+    alert("Dados salvos com sucesso!");
 }
+
+function atualizarTabela() {
+    let dadosString = localStorage.getItem('dadosFormulario');
+    let dados = JSON.parse(dadosString);
+
+    if (dados) {
+        let dadosTabela = `
+        <table class="table table-bordered mt-4 table-class">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Campo</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nome:</td>
+                    <td>${dados.nome}</td>
+                </tr>
+                <tr>
+                    <td>E-mail:</td>
+                    <td>${dados.email}</td>
+                </tr>
+                <tr>
+                    <td>Idade:</td>
+                    <td>${dados.idade}</td>
+                </tr>
+                <tr>
+                    <td>Senha:</td>
+                    <td>${dados.senha}</td>
+                </tr>
+                <tr>
+                    <td>Confirmação de Senha:</td>
+                    <td>${dados.confirmaSenha}</td>
+                </tr>
+                <tr>
+                    <td>Aceito os termos:</td>
+                    <td>${dados.aceitoTermos}</td>
+                </tr>
+            </tbody>
+        </table>
+        `;
+
+        let tableContainer = document.getElementById('tableContainer');
+        tableContainer.innerHTML = dadosTabela;
+    }
+}
+
+window.onload = atualizarTabela;
 
 
 
